@@ -18,8 +18,8 @@ uniform mat4 MV;
 uniform vec3 LightPosition_worldspace;
 uniform vec3 Light2Position_worldspace;
 
-uniform vec3 LightColor = vec3(0,0.7,0.7);
-uniform vec3 Light2Color = vec3(0.3,0,0);
+uniform vec3 LightColor = vec3(0,0.8,0.5);
+uniform vec3 Light2Color = vec3(0.3,0,0.9);
 
 uniform float LightPower = 150.0f;
 uniform float Light2Power = 150.0f;
