@@ -294,30 +294,27 @@ int main(void){
         float deltaTime = float(currentTime - lastTime);
         position_x = (cos(deltaTime)*7);
 		position_z = (sin(deltaTime)*7);
+		angle = fmod(deltaTime,6.29f);
+
+
         computeMatricesFromInputs();
 		glm::mat4 ProjectionMatrix = getProjectionMatrix();
 		glm::mat4 ViewMatrix = getViewMatrix();
 
-
-
-
         glUseProgram(shaderID);
-
 
         ///Light1
 		glm::vec3 lightPos = glm::vec3(-15,-15,-15);
-		glUniform3f(firstLightID, lightPos.x, lightPos.y, lightPos.z); //ZMIANA PO£O¯ENIA ŒWIAT£A
+		glUniform3f(firstLightID, lightPos.x, lightPos.y, lightPos.z);
 		///Light2
-		glm::vec3 light2Pos = glm::vec3(15,15,15);//4 4 4
-		glUniform3f(secondLightID, light2Pos.x, light2Pos.y, light2Pos.z); //ZMIANA PO£O¯ENIA 2 ŒWIAT£A
+		glm::vec3 light2Pos = glm::vec3(15,15,15);
+		glUniform3f(secondLightID, light2Pos.x, light2Pos.y, light2Pos.z);
 
 		glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, &ViewMatrix[0][0]);
 
 
 		///First fish
         glm::mat4 fishMatrix1 = glm::mat4(1.0);
-        //ModelMatrix1 = glm::rotate(ModelMatrix1,11.0f,vec3(1,0,0)); //rotate the fish
-         // scale the model
 
 		///Transformations
         fishMatrix1 = glm::translate(fishMatrix1, vec3(position_x,-1.5*position_y,position_z+3));
@@ -334,7 +331,7 @@ int main(void){
 
         ///Second fish
         glm::mat4 fishMatrix2 = glm::mat4(1.0);
-        fishMatrix2 = glm::translate(fishMatrix2, vec3(5,4,0));
+        fishMatrix2 = glm::translate(fishMatrix2, vec3(5,4+position_x,0));
 
 		glm::mat4 MVP2 = ProjectionMatrix * ViewMatrix * fishMatrix2;
 
@@ -343,6 +340,11 @@ int main(void){
         fish.Draw();
 
 
+        ///Third fish
+        glm::mat4 fishMatrix3 = glm::mat4(1.0);
+        fishMatrix3 = glm::translate(fishMatrix3, vec3());
+
+        fish.Draw();
 		///trawa
 		glm::mat4 ModelMatrix2 = glm::mat4(1.0);
 		ModelMatrix2 = glm::translate(ModelMatrix2, vec3(0,0,5));
@@ -355,15 +357,14 @@ int main(void){
 
 		grass.Draw();
 
-        ///druga ryba
-        glm::mat4 ModelMatrix3 = glm::mat4(1.0);
-		ModelMatrix3 = glm::translate(ModelMatrix3, vec3(4,3,0));
-        //ModelMatrix3 = glm::rotate(ModelMatrix3, 11.0f, vec3(0,0,0));
-        //ModelMatrix3 = glm::scale(ModelMatrix3, vec3(0.7, 0.7, 0.7));
-		glm::mat4 MVP4 = ProjectionMatrix * ViewMatrix * ModelMatrix3;
+        ///Shark
+        glm::mat4 sharkMatrix = glm::mat4(1.0);
+		sharkMatrix = glm::translate(sharkMatrix, vec3(-4,-3,0));
+        sharkMatrix = glm::rotate(sharkMatrix, angle, vec3(1, 1, 0));
+		glm::mat4 MVP4 = ProjectionMatrix * ViewMatrix * sharkMatrix;
 
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP4[0][0]);
-		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &ModelMatrix3[0][0]);
+		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &sharkMatrix[0][0]);
 
 		fish2.Draw();
 

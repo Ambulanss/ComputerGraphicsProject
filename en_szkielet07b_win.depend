@@ -1129,7 +1129,7 @@
 1538575964 c:\users\andrzej\desktop\naszprojekt\teapot.h
 	"model.h"
 
-1538611192 source:c:\users\andrzej\desktop\naszprojekt\main_file.cpp
+1538612538 source:c:\users\andrzej\desktop\naszprojekt\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
