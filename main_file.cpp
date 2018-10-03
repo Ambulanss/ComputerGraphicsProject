@@ -262,9 +262,20 @@ int main(void){
 
 	glUseProgram(shaderID);
 
-	GLuint firstLightID = glGetUniformLocation(lightShaderID, "LightPosition_worldspace");
+	GLuint firstLightID = glGetUniformLocation(shaderID, "LightPosition_worldspace");
 
-    GLuint secondLightID = glGetUniformLocation(lightShaderID, "Light2Position_worldspace");
+    GLuint secondLightID = glGetUniformLocation(shaderID, "Light2Position_worldspace");
+
+    double lastTime = glfwGetTime();
+	int nbFrames = 0;
+
+
+
+	float position_x=0;
+	float position_y=0;
+	float position_z=0;
+    float angle = 0;
+    int i = 0;
 
     do{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -278,23 +289,28 @@ int main(void){
 			lastTime += 1.0;
 		}
 
+		static double lastTime = glfwGetTime();
+        currentTime = glfwGetTime();
+        float deltaTime = float(currentTime - lastTime);
 
         computeMatricesFromInputs();
 		glm::mat4 ProjectionMatrix = getProjectionMatrix();
 		glm::mat4 ViewMatrix = getViewMatrix();
 
-		static double lastTime = glfwGetTime();
-        currentTime = glfwGetTime();
-        float deltaTime = float(currentTime - lastTime);
+
+
+
         glUseProgram(shaderID);
 
 
-        ///ŒWIAT£O
-		glm::vec3 lightPos = glm::vec3(0,0,0);
+        ///Light1
+		glm::vec3 lightPos = glm::vec3(-15,-15,-15);
 		glUniform3f(firstLightID, lightPos.x, lightPos.y, lightPos.z); //ZMIANA PO£O¯ENIA ŒWIAT£A
-		///Œwiat³o2
-		glm::vec3 light2Pos = glm::vec3(11,11,11);//4 4 4
+		///Light2
+		glm::vec3 light2Pos = glm::vec3(15,15,15);//4 4 4
 		glUniform3f(secondLightID, light2Pos.x, light2Pos.y, light2Pos.z); //ZMIANA PO£O¯ENIA 2 ŒWIAT£A
+
+		glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, &ViewMatrix[0][0]);
 
         glm::mat4 ModelMatrix1 = glm::mat4(1.0);
         ModelMatrix1 = glm::translate(ModelMatrix1, vec3(5,4,0)); // push the fish in the 2,2,2 direction
@@ -358,7 +374,7 @@ int main(void){
 
 
         glm::mat4 ModelMatrix6 = glm::mat4(1.0);
-		ModelMatrix6 = glm::translate(ModelMatrix6, vec3(0,0,0));
+		ModelMatrix6 = glm::translate(ModelMatrix6, vec3(15,15,15));
 		ModelMatrix6 = glm::rotate(ModelMatrix6,11.0f,vec3(1,0,0));
 		ModelMatrix6 = glm::scale(ModelMatrix6,vec3(0.5,0.5,0.5));
 		glm::mat4 MVP6 = ProjectionMatrix * ViewMatrix * ModelMatrix6;
@@ -373,9 +389,9 @@ int main(void){
         ///Œwiec¹ca lampka2
 
         glm::mat4 ModelMatrix7 = glm::mat4(1.0);
-		ModelMatrix7 = glm::translate(ModelMatrix7, vec3(11,11,11));
+		ModelMatrix7 = glm::translate(ModelMatrix7, vec3(-15,-15,-15));
 		ModelMatrix7 = glm::rotate(ModelMatrix7,11.0f,vec3(1,0,0));//}
-		ModelMatrix7 = glm::scale(ModelMatrix7,vec3(0.01,0.01,0.01));
+		ModelMatrix7 = glm::scale(ModelMatrix7,vec3(0.5,0.5,0.5));
 		glm::mat4 MVP7 = ProjectionMatrix * ViewMatrix * ModelMatrix7;
 
 		glUniformMatrix4fv(MatrixID2, 1, GL_FALSE, &MVP7[0][0]);
