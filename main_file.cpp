@@ -331,7 +331,7 @@ int main(void){
 
         ///Second fish
         glm::mat4 fishMatrix2 = glm::mat4(1.0);
-        fishMatrix2 = glm::translate(fishMatrix2, vec3(5,4+position_x,0));
+        fishMatrix2 = glm::translate(fishMatrix2, vec3(11,4+position_x,11));
 
 		glm::mat4 MVP2 = ProjectionMatrix * ViewMatrix * fishMatrix2;
 
@@ -349,14 +349,14 @@ int main(void){
 		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &fishMatrix3[0][0]);
         fish.Draw();
 		///trawa
-		glm::mat4 ModelMatrix2 = glm::mat4(1.0);
-		ModelMatrix2 = glm::translate(ModelMatrix2, vec3(0,0,5));
-        ModelMatrix2 = glm::rotate(ModelMatrix2, 11.0f, vec3(1,0,0));
-        ModelMatrix2 = glm::scale(ModelMatrix2, vec3(0.7, 0.7, 0.7));
-		glm::mat4 MVP3 = ProjectionMatrix * ViewMatrix * ModelMatrix2;
+		glm::mat4 grassMatrix = glm::mat4(1.0);
+		grassMatrix = glm::translate(grassMatrix, vec3(0,-19.5,10));
+        grassMatrix = glm::rotate(grassMatrix, 1.0f, vec3(-1,0,0));
+        grassMatrix = glm::scale(grassMatrix, vec3(5.0, 5.0, 5.0));
+		glm::mat4 MVP3 = ProjectionMatrix * ViewMatrix * grassMatrix;
 
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP3[0][0]);
-		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &ModelMatrix2[0][0]);
+		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &grassMatrix[0][0]);
 
 		grass.Draw();
 
