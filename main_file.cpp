@@ -342,8 +342,11 @@ int main(void){
 
         ///Third fish
         glm::mat4 fishMatrix3 = glm::mat4(1.0);
-        fishMatrix3 = glm::translate(fishMatrix3, vec3());
-
+        fishMatrix3 = glm::translate(fishMatrix3, vec3(6+position_x, -3+position_y, 3+position_z));
+        fishMatrix3 = glm::rotate(fishMatrix3, angle, vec3(1,1,1));
+        MVP2 = ProjectionMatrix * ViewMatrix * fishMatrix3;
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP2[0][0]);
+		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &fishMatrix3[0][0]);
         fish.Draw();
 		///trawa
 		glm::mat4 ModelMatrix2 = glm::mat4(1.0);
