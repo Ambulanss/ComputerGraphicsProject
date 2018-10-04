@@ -21,8 +21,8 @@ uniform vec3 Light2Position_worldspace;
 uniform vec3 LightColor = vec3(0,0.8,0.5);
 uniform vec3 Light2Color = vec3(0.3,0,0.9);
 
-uniform float LightPower = 150.0f;
-uniform float Light2Power = 150.0f;
+uniform float LightPower = 300.0f;
+uniform float Light2Power = 300.0f;
 
 
 // Prototypy funkcji
@@ -79,12 +79,12 @@ vec3 CalcPointLight(vec3 LightPosition, vec3 LightDirection, vec3 LColor, float 
     spec = pow(max(dot(Normal_cameraspace, halfwayDir), 0.0), 32.0);
 
 
-	vec3 resault =
+	vec3 result =
 		// Ambient : simulates indirect lighting
 		MaterialAmbientColor +
 		// Diffuse : "color" of the object
 		MaterialDiffuseColor * LColor * LPower * cosTheta / (distance*distance) +
 		// Specular : reflective highlight, like a mirror
 		MaterialSpecularColor * LColor * LPower * pow(cosAlpha,5) / (distance*distance);//pow(cosAlpha,5)
-    return resault;
+    return result;
 }
