@@ -282,9 +282,7 @@ int main(void){
 
         double currentTime = glfwGetTime();
 		nbFrames++;
-		if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1sec ago
-			// printf and reset
-			printf("%f ms/frame\n", 1000.0/double(nbFrames));
+		if ( currentTime - lastTime >= 1.0 ){
 			nbFrames = 0;
 			lastTime += 1.0;
 		}
@@ -317,7 +315,7 @@ int main(void){
         glm::mat4 fishMatrix1 = glm::mat4(1.0);
 
 		///Transformations
-        fishMatrix1 = glm::translate(fishMatrix1, vec3(position_x,-1.5*position_y,position_z+3));
+        fishMatrix1 = glm::translate(fishMatrix1, vec3(position_x,0,position_z+3));
         fishMatrix1 = glm::rotate(fishMatrix1,3.14f,vec3(0,0,1));
         fishMatrix1 = glm::scale(fishMatrix1, vec3(1.2, 1.2, 1.2));
 		glm::mat4 MVP1 = ProjectionMatrix * ViewMatrix * fishMatrix1;
@@ -348,7 +346,7 @@ int main(void){
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP2[0][0]);
 		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &fishMatrix3[0][0]);
         fish.Draw();
-		///trawa
+		///Grass
 		glm::mat4 grassMatrix = glm::mat4(1.0);
 		grassMatrix = glm::translate(grassMatrix, vec3(0,-19.5,10));
         grassMatrix = glm::rotate(grassMatrix, 1.0f, vec3(-1,0,0));
@@ -371,7 +369,7 @@ int main(void){
 
 		fish2.Draw();
 
-		///tło
+		///Background
 		glm::mat4 ModelMatrix4 = glm::mat4(1.0);
         ModelMatrix4 = glm::scale(ModelMatrix4, vec3(20, 20, 20));
         glm::mat4 MVP5 = ProjectionMatrix * ViewMatrix * ModelMatrix4;
@@ -381,8 +379,7 @@ int main(void){
 		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &ModelMatrix4[0][0]);
 
 		waterbox.Draw();
-        ///Œwiec¹ca lampka
-		///TUTAJ ZACZYNA DZIA£AÆ DRUGI PROGRAM CIENIUJ¥CY
+
 		glUseProgram(lightShaderID);
 		glUniformMatrix4fv(viewMatrixID2, 1, GL_FALSE, &ViewMatrix[0][0]); // This one doesn't change between objects, so this can be done once for all objects that use "programID"
 
@@ -397,10 +394,10 @@ int main(void){
 		glUniformMatrix4fv(modelMatrixID2, 1, GL_FALSE, &ModelMatrix6[0][0]);
 
 		LightSource.Draw();
-		///Koniec Lampki1
 
 
-        ///Œwiec¹ca lampka2
+
+
 
         glm::mat4 ModelMatrix7 = glm::mat4(1.0);
 		ModelMatrix7 = glm::translate(ModelMatrix7, vec3(-15,-15,-15));
