@@ -271,9 +271,9 @@ int main(void){
 
 
 
-	float position_x=0;
-	float position_y=0;
-	float position_z=0;
+	float posX=0;
+	float posY=0;
+	float posZ=0;
     float angle = 0;
     int i = 0;
 
@@ -290,8 +290,8 @@ int main(void){
 		static double lastTime = glfwGetTime();
         currentTime = glfwGetTime();
         float deltaTime = float(currentTime - lastTime);
-        position_x = (cos(deltaTime)*7);
-		position_z = (sin(deltaTime)*7);
+        posX = (cos(deltaTime)*7);
+		posZ = (sin(deltaTime)*7);
 		angle = fmod(deltaTime,6.29f);
 
 
@@ -315,7 +315,7 @@ int main(void){
         glm::mat4 fishMatrix1 = glm::mat4(1.0);
 
 		///Transformations
-        fishMatrix1 = glm::translate(fishMatrix1, vec3(position_x,0,position_z+3));
+        fishMatrix1 = glm::translate(fishMatrix1, vec3(posX,0,posZ+3));
         fishMatrix1 = glm::rotate(fishMatrix1,3.14f,vec3(0,0,1));
         fishMatrix1 = glm::scale(fishMatrix1, vec3(1.2, 1.2, 1.2));
 		glm::mat4 MVP1 = ProjectionMatrix * ViewMatrix * fishMatrix1;
@@ -329,7 +329,7 @@ int main(void){
 
         ///Second fish
         glm::mat4 fishMatrix2 = glm::mat4(1.0);
-        fishMatrix2 = glm::translate(fishMatrix2, vec3(11,4+position_x,11));
+        fishMatrix2 = glm::translate(fishMatrix2, vec3(11,4+posX,11));
 
 		glm::mat4 MVP2 = ProjectionMatrix * ViewMatrix * fishMatrix2;
 
@@ -340,7 +340,7 @@ int main(void){
 
         ///Third fish
         glm::mat4 fishMatrix3 = glm::mat4(1.0);
-        fishMatrix3 = glm::translate(fishMatrix3, vec3(6+position_x, -3+position_y, 3+position_z));
+        fishMatrix3 = glm::translate(fishMatrix3, vec3(6+posX, -3+posY, 3+posZ));
         fishMatrix3 = glm::rotate(fishMatrix3, angle, vec3(1,1,1));
         MVP2 = ProjectionMatrix * ViewMatrix * fishMatrix3;
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP2[0][0]);
@@ -370,13 +370,13 @@ int main(void){
 		fish2.Draw();
 
 		///Background
-		glm::mat4 ModelMatrix4 = glm::mat4(1.0);
-        ModelMatrix4 = glm::scale(ModelMatrix4, vec3(20, 20, 20));
-        glm::mat4 MVP5 = ProjectionMatrix * ViewMatrix * ModelMatrix4;
+		glm::mat4 backgroundMatrix = glm::mat4(1.0);
+        backgroundMatrix = glm::scale(backgroundMatrix, vec3(20, 20, 20));
+        glm::mat4 MVP5 = ProjectionMatrix * ViewMatrix * backgroundMatrix;
 
 
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP5[0][0]);
-		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &ModelMatrix4[0][0]);
+		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &backgroundMatrix[0][0]);
 
 		waterbox.Draw();
 
@@ -384,14 +384,14 @@ int main(void){
 		glUniformMatrix4fv(viewMatrixID2, 1, GL_FALSE, &ViewMatrix[0][0]); // This one doesn't change between objects, so this can be done once for all objects that use "programID"
 
 
-        glm::mat4 ModelMatrix6 = glm::mat4(1.0);
-		ModelMatrix6 = glm::translate(ModelMatrix6, vec3(15,15,15));
-		ModelMatrix6 = glm::rotate(ModelMatrix6,11.0f,vec3(1,0,0));
-		ModelMatrix6 = glm::scale(ModelMatrix6,vec3(0.5,0.5,0.5));
-		glm::mat4 MVP6 = ProjectionMatrix * ViewMatrix * ModelMatrix6;
+        glm::mat4 lightMatrix1 = glm::mat4(1.0);
+		lightMatrix1 = glm::translate(lightMatrix1, vec3(15,15,15));
+		lightMatrix1 = glm::rotate(lightMatrix1,11.0f,vec3(1,0,0));
+		lightMatrix1 = glm::scale(lightMatrix1,vec3(0.5,0.5,0.5));
+		glm::mat4 MVP6 = ProjectionMatrix * ViewMatrix * lightMatrix1;
 
 		glUniformMatrix4fv(MatrixID2, 1, GL_FALSE, &MVP6[0][0]);
-		glUniformMatrix4fv(modelMatrixID2, 1, GL_FALSE, &ModelMatrix6[0][0]);
+		glUniformMatrix4fv(modelMatrixID2, 1, GL_FALSE, &lightMatrix1[0][0]);
 
 		LightSource.Draw();
 
@@ -399,14 +399,14 @@ int main(void){
 
 
 
-        glm::mat4 ModelMatrix7 = glm::mat4(1.0);
-		ModelMatrix7 = glm::translate(ModelMatrix7, vec3(-15,-15,-15));
-		ModelMatrix7 = glm::rotate(ModelMatrix7,11.0f,vec3(1,0,0));//}
-		ModelMatrix7 = glm::scale(ModelMatrix7,vec3(0.5,0.5,0.5));
-		glm::mat4 MVP7 = ProjectionMatrix * ViewMatrix * ModelMatrix7;
+        glm::mat4 lightMatrix2 = glm::mat4(1.0);
+		lightMatrix2 = glm::translate(lightMatrix2, vec3(-15,-15,-15));
+		lightMatrix2 = glm::rotate(lightMatrix2,11.0f,vec3(1,0,0));//}
+		lightMatrix2 = glm::scale(lightMatrix2,vec3(0.5,0.5,0.5));
+		glm::mat4 MVP7 = ProjectionMatrix * ViewMatrix * lightMatrix2;
 
 		glUniformMatrix4fv(MatrixID2, 1, GL_FALSE, &MVP7[0][0]);
-		glUniformMatrix4fv(modelMatrixID2, 1, GL_FALSE, &ModelMatrix7[0][0]);
+		glUniformMatrix4fv(modelMatrixID2, 1, GL_FALSE, &lightMatrix2[0][0]);
 
 		LightSource.Draw();
 
