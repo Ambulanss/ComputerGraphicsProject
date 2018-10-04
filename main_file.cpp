@@ -175,7 +175,7 @@ void InitOpenGL()
 }
 
 
-///Globals, yuck
+///Globals
 int gScrWidth = 1920;
 int gScrHeight = 1080;
 GLFWwindow* window;
