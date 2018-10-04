@@ -193,7 +193,7 @@ int main(void){
 
     ///Window initialization
 
-    window = glfwCreateWindow( gScrWidth, gScrHeight, "Aquarium Project", NULL, NULL);
+    window = glfwCreateWindow( gScrWidth, gScrHeight, "Aquarium Project", glfwGetPrimaryMonitor(), NULL);
     if( window == NULL ){
 		fprintf( stderr, "Failed to open GLFW window.\n" );
 		getchar();
